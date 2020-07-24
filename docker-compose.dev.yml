@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+
+  app_scrapping:
+    image: python:3.7.5
+    volumes:
+      - ./src/app_scrapping:/src/app_scrapping
+    command: ["/src/app_scrapping/entry/dev-django.sh", "0.0.0.0:8000"]
+    ports:
+      - 8000:8000

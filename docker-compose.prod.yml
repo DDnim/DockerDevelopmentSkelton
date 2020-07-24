@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+
+  backend:
+    build: ./src/app_scrapping
+    command: ["/apps/app_scrapping/entry/run.sh"]
+    volumes:
+      - static_volume:/app_scrapping/staticfiles
+volumes:
+  static_volume:
