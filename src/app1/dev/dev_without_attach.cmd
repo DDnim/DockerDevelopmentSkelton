@@ -1,4 +1,4 @@
-If not Exist .local_env python -m venv .local_env
+If not Exist .env python -m venv .env
 call .env/Scripts/activate.bat
 pip install poetry
 poetry install

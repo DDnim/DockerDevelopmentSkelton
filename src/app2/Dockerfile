@@ -14,9 +14,9 @@ RUN pip install --upgrade pip setuptools
 RUN pip install poetry
 
 # copy project
-COPY . /apps/app_scrapping
+COPY . /src/app2
 
 # set work directory
-WORKDIR /apps/app_scrapping
+WORKDIR /src/app2
 
 RUN poetry install --no-dev

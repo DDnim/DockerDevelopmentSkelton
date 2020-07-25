@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "app_scrapping"
+version = "0.1.0"
+description = ""
+authors = ["DDnim <s0913031@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+requests = "^2.24.0"
+django = "^3.0.8"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^3.8.3"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

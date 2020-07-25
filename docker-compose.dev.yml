@@ -1,10 +1,77 @@
 version: "3.7"
 services:
 
-  app_scrapping:
+  app1:
     image: python:3.7.5
     volumes:
-      - ./src/app_scrapping:/src/app_scrapping
-    command: ["/src/app_scrapping/entry/dev-django.sh", "0.0.0.0:8000"]
+      - ./src/app1:/src/app1
+    stdin_open: true
+    restart: always
+    depends_on:
+      - relationdb
+      - nosqldb
+    networks:
+      - network-relationdb
+      - network-nosqldb
+    environment:
+      RDB_URI: "postgres://USER:PASSWORD@relationdb:5432/DB_NAME"
+      NOSQL_DB_URI: "mongodb://USER:PASSWORD@nosqldb:27017"
+    env_file:
+      - env_file/app1.env
+  app2:
+    image: python:3.7.5
+    volumes:
+      - ./src/app2:/src/app2
+    stdin_open: true
+    restart: always
+    depends_on:
+      - relationdb
+      - nosqldb
+    networks:
+      - network-relationdb
+      - network-nosqldb
+    environment:
+      RDB_URI: "postgres://USER:PASSWORD@relationdb:5432/DB_NAME"
+      NOSQL_DB_URI: "mongodb://USER:PASSWORD@nosqldb:27017"
+    env_file:
+      - env_file/app2.env
+
+  relationdb:
+    image: postgres:12.3
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    stdin_open: true
+    restart: always
     ports:
-      - 8000:8000
+      - 5432:5432
+    networks:
+      - network-relationdb
+    environment:
+      POSTGRES_USER: "USER"
+      POSTGRES_PASSWORD: "PASSWORD"
+      POSTGRES_DB: "DB_NAME"
+    env_file:
+      - env_file/relationdb.env
+
+  nosqldb:
+    image: mongo:latest
+    volumes:
+      - ./src/nosqldb:/src/nosqldb
+    stdin_open: true
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - network-nosqldb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "USER"
+      MONGO_INITDB_ROOT_PASSWORD: "PASSWORD"
+    env_file:
+      - env_file/nosqldb.env
+
+networks:
+  network-relationdb:
+  network-nosqldb:
+
+volumes:
+  postgres_data:
